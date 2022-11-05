@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "@mui/system";
-import { Divider, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 
 import { Player } from "data/Player";
 import { Team } from "data/Team";
@@ -14,25 +14,22 @@ export const CurrentHandScreen: React.FC = () => {
     status: "initital",
   });
   return (
-    <Stack divider={<Divider variant="middle" />}>
-      <Box p={1}>
-        <SessionSummary
-          player={players[0]}
-          sessionName="11/27/2021 Card Night"
-          scoreTally={{ points: 18, euchres: 3, loners: 1 }}
-        />
-      </Box>
-      <Box p={1}>
-        <RoundSummary
-          roundNumber={3}
-          table={{
-            name: "Table 2",
-            location: "in the kitchen",
-            specialRules: ["Going Under", "Stick the Dealer (after 1 redeal)"],
-          }}
-          scoreTally={{ points: 3, euchres: 1, loners: 0 }}
-        />
-      </Box>
+    <Stack>
+      <SessionSummary
+        player={players[0]}
+        scoreTally={{ points: 18, euchres: 3, loners: 1 }}
+      />
+      <RoundSummary
+        roundNumber={3}
+        table={{
+          name: "Table 2",
+          location: "in the kitchen",
+          specialRules: ["Going Under", "Stick the Dealer (after 1 redeal)"],
+        }}
+        partner={players[2]}
+        scoreTally={{ points: 3, euchres: 1, loners: 0 }}
+        opponentScoreTally={{ points: 4, euchres: 0, loners: 1 }}
+      />
       <Box flexGrow={1} p={1}>
         <HandProgressControl
           currentPlayer={players[0]}

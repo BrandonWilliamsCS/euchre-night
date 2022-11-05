@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Typography } from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
+import InfoIcon from "@mui/icons-material/InfoOutlined";
 
 import { Table } from "data/Table";
 import { TableDetailDialog } from "./TableDetailDialog";
@@ -13,18 +13,19 @@ export const TableDisplay: React.FC<TableDisplayProps> = ({ table }) => {
   const [dialogOpen, setDialogOpen] = React.useState(false);
   return (
     <>
-      <Typography>
-        <Button
-          variant="outlined"
-          type="button"
-          endIcon={<InfoIcon />}
-          onClick={() => {
-            setDialogOpen(true);
-          }}
-        >
+      <Button
+        color="inherit"
+        variant="text"
+        type="button"
+        endIcon={<InfoIcon />}
+        onClick={() => {
+          setDialogOpen(true);
+        }}
+      >
+        <Typography component="span" variant="body2">
           {table.name}
-        </Button>
-      </Typography>
+        </Typography>
+      </Button>
       {dialogOpen && (
         <TableDetailDialog
           table={table}

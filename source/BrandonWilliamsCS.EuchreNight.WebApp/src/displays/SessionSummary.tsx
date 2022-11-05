@@ -1,31 +1,33 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
+import UserIcon from "@mui/icons-material/Person";
 
 import { Player } from "data/Player";
 import { ScoreTally } from "data/ScoreTally";
-import { PlayerDisplay } from "./PlayerDisplay";
-import { ScoreDisplay } from "./ScoreDisplay";
 
 export interface SessionSummaryProps {
   player: Player;
   scoreTally: ScoreTally;
-  sessionName: string;
 }
 
 export const SessionSummary: React.FC<SessionSummaryProps> = ({
   player,
   scoreTally,
-  sessionName,
 }) => {
   return (
-    <Box display="flex">
-      <Box flexGrow={1}>
-        <Typography>{sessionName}</Typography>
-        <PlayerDisplay player={player} />
+    <Paper>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        height={40}
+        alignItems="center"
+        px={2}
+      >
+        <UserIcon sx={{ height: 36, width: 36 }} />
+        <Typography component="span">Score: {scoreTally.points}</Typography>
+        <Typography component="span">Euchres: {scoreTally.euchres}</Typography>
+        <Typography component="span">Loners: {scoreTally.loners}</Typography>
       </Box>
-      <Box flexShrink={0}>
-        <ScoreDisplay scoreTally={scoreTally} />
-      </Box>
-    </Box>
+    </Paper>
   );
 };

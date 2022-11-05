@@ -7,8 +7,8 @@ import { ScreenRoutes } from "./ScreenRoutes";
 function App() {
   return (
     <>
-      <CssBaseline />
       <ThemeProvider theme={appTheme}>
+        <CssBaseline />
         <ScreenRoutes />
       </ThemeProvider>
     </>

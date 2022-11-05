@@ -3,7 +3,6 @@ import { Stack, Typography } from "@mui/material";
 
 import { SelectButtonList } from "controls/SelectButtonList";
 import { Player } from "data/Player";
-import { Team } from "data/Team";
 import { CompleteHandStatus, SelectingScoreHandStatus } from "./HandStatus";
 
 export interface SelectingScoreHandControlProps {

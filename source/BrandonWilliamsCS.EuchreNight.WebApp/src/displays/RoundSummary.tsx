@@ -1,31 +1,50 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 
+import { Player } from "data/Player";
 import { ScoreTally } from "data/ScoreTally";
 import { Table } from "data/Table";
 import { ScoreDisplay } from "./ScoreDisplay";
 import { TableDisplay } from "./TableDisplay";
 
 export interface RoundSummaryProps {
+  opponentScoreTally: ScoreTally;
+  partner: Player;
   roundNumber: number;
-  table: Table;
   scoreTally: ScoreTally;
+  table: Table;
 }
 
 export const RoundSummary: React.FC<RoundSummaryProps> = ({
+  opponentScoreTally,
+  partner,
   roundNumber,
-  table,
   scoreTally,
+  table,
 }) => {
   return (
-    <Box display="flex">
-      <Box flexGrow={1}>
-        <Typography>Round {roundNumber}</Typography>
-        <TableDisplay table={table} />
+    <Box display="flex" flexDirection="column" px={4}>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        height={40}
+      >
+        <Typography component="span" variant="body2">
+          Round {roundNumber}
+        </Typography>
+        <Box>
+          <TableDisplay table={table} />
+        </Box>
       </Box>
-      <Box flexShrink={0}>
-        <ScoreDisplay scoreTally={scoreTally} />
-      </Box>
+      <Divider sx={{ borderBottomWidth: 2, mb: 2 }} />
+      <ScoreDisplay
+        scoreTally={scoreTally}
+        opponentScoreTally={opponentScoreTally}
+      />
+      <Typography component="span" variant="body1" textAlign="center">
+        Your partner is {partner.displayName}
+      </Typography>
     </Box>
   );
 };
