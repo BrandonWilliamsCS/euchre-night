@@ -1,4 +1,5 @@
 import React from "react";
+import { styled } from "@mui/material";
 
 import ClubsImg from "./clubs.svg";
 import DiamondsImg from "./diamonds.svg";
@@ -16,7 +17,7 @@ export const SuitDisplay: React.FC<SuitDisplayProps> = ({
   suit,
 }) => {
   const suitImgSrc = resolveSuitImgSrc(suit);
-  return <img src={suitImgSrc} alt={suit} className={className} />;
+  return <SuitImg src={suitImgSrc} alt={suit} className={className} />;
 };
 
 function resolveSuitImgSrc(suit: string): string {
@@ -33,3 +34,5 @@ function resolveSuitImgSrc(suit: string): string {
       return NoTrumpImg;
   }
 }
+
+const SuitImg = styled("img")({ height: 55 });

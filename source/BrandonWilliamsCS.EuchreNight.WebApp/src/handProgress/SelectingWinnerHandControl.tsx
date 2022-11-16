@@ -1,7 +1,7 @@
 import React from "react";
 import { Stack, Typography } from "@mui/material";
 
-import { SelectButtonList } from "controls/SelectButtonList";
+import { SelectionButtonSet } from "common/SelectionButtonSet";
 import { Player } from "data/Player";
 import { Team } from "data/Team";
 import {
@@ -16,33 +16,33 @@ export interface SelectingWinnerHandControlProps {
   teams: Team[];
 }
 
-export const SelectingWinnerHandControl: React.FC<SelectingWinnerHandControlProps> =
-  ({ currentPlayer, currentStatus, onStatusChange, teams }) => {
-    const splitTeams = splitTeamsByPlayer(teams, currentPlayer);
-    return (
-      <Stack>
-        <Typography>Who won?</Typography>
-        <SelectButtonList<Team>
-          onSelect={(winner) => {
-            onStatusChange({
-              ...currentStatus,
-              status: "selectingScore",
-              winner,
-            });
-          }}
-          currentValue={undefined}
-          items={splitTeams.map((team) => ({
-            value: team,
-            display: (
-              <Typography>
-                {team.hasPlayer(currentPlayer) ? "My Team" : "Their Team"}
-              </Typography>
-            ),
-          }))}
-        />
-      </Stack>
-    );
-  };
+export const SelectingWinnerHandControl: React.FC<
+  SelectingWinnerHandControlProps
+> = ({ currentPlayer, currentStatus, onStatusChange, teams }) => {
+  const splitTeams = splitTeamsByPlayer(teams, currentPlayer);
+  return (
+    <Stack>
+      <Typography textAlign="center">Who won?</Typography>
+      <SelectionButtonSet<Team>
+        onSelect={(winner) => {
+          onStatusChange({
+            ...currentStatus,
+            status: "selectingScore",
+            winner,
+          });
+        }}
+        items={splitTeams.map((team) => ({
+          value: team,
+          display: (
+            <Typography>
+              {team.hasPlayer(currentPlayer) ? "My Team" : "Their Team"}
+            </Typography>
+          ),
+        }))}
+      />
+    </Stack>
+  );
+};
 
 function splitTeamsByPlayer(teams: Team[], player: Player): [Team, Team] {
   const result: [Team, Team] = [undefined!, undefined!];

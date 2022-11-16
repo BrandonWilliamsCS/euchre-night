@@ -1,7 +1,7 @@
 import React from "react";
-import { Stack, styled, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
-import { SelectButtonList } from "controls/SelectButtonList";
+import { SelectionButtonSet } from "common/SelectionButtonSet";
 import { SuitDisplay } from "displays/SuitDisplay";
 import {
   SelectingCallerHandStatus,
@@ -13,30 +13,33 @@ export interface SelectingTrumpHandControlProps {
   onStatusChange: (status: SelectingCallerHandStatus) => void;
 }
 
-export const SelectingTrumpHandControl: React.FC<SelectingTrumpHandControlProps> =
-  ({ currentStatus, onStatusChange }) => {
-    return (
-      <Stack>
-        <Typography>What is trump?</Typography>
-        <SelectButtonList<string>
-          onSelect={(trump) => {
-            onStatusChange({
-              ...currentStatus,
-              status: "selectingCaller",
-              trump,
-            });
-          }}
-          currentValue={undefined}
-          items={["clubs", "diamonds", "hearts", "spades", "notrump"].map(
-            (suit) => ({
-              value: suit,
-              display: <SuitButtonIcon suit={suit} />,
-              buttonSx: { flexGrow: 1 },
-            }),
-          )}
-        />
-      </Stack>
-    );
-  };
-
-const SuitButtonIcon = styled(SuitDisplay)({ height: 50 });
+export const SelectingTrumpHandControl: React.FC<
+  SelectingTrumpHandControlProps
+> = ({ currentStatus, onStatusChange }) => {
+  return (
+    <Stack>
+      <Typography textAlign="center" mb={1}>
+        What is trump?
+      </Typography>
+      <SelectionButtonSet<string>
+        onSelect={(trump) => {
+          onStatusChange({
+            ...currentStatus,
+            status: "selectingCaller",
+            trump,
+          });
+        }}
+        items={[
+          ...["clubs", "diamonds", "hearts", "spades"].map((suit) => ({
+            value: suit,
+            display: <SuitDisplay suit={suit} />,
+          })),
+          {
+            value: "notrump",
+            display: "No Trump",
+          },
+        ]}
+      />
+    </Stack>
+  );
+};

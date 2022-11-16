@@ -51,32 +51,37 @@ export const CurrentHandScreen: React.FC = () => {
 const players: Player[] = [
   {
     name: "Brandon",
-    displayName: "The Great Brandini",
+    number: 4,
+    displayName: "Brandon",
     color: "#FF00FF",
   },
   {
     name: "Persephone",
+    number: 1,
     displayName: "Persephone",
     color: "#FF00FF",
   },
   {
     name: "Rupert",
-    displayName: "The Pert",
+    number: 2,
+    displayName: "Rupert",
     color: "#FF00FF",
   },
   {
     name: "Angelique",
+    number: 3,
     displayName: "Angelique",
     color: "#FF00FF",
   },
   {
     name: "Ted",
+    number: 5,
     displayName: "Ted",
     color: "#FF00FF",
   },
 ];
 
 const teams: Team[] = [
-  new Team([players[0], players[1]]),
-  new Team([players[2], players[3]]),
+  new Team([players[0], players[2]]),
+  new Team([players[1], players[3]]),
 ];

@@ -1,10 +1,10 @@
 import React from "react";
 import { Stack, Typography } from "@mui/material";
 
-import { SelectButtonList } from "controls/SelectButtonList";
+import { SelectionButtonSet } from "common/SelectionButtonSet";
 import { Player } from "data/Player";
 import { Team } from "data/Team";
-import { PlayerDisplay } from "displays/PlayerDisplay";
+import { CurrentTrumpDisplay } from "displays/CurrentTrumpDisplay";
 import {
   SelectingApproachHandStatus,
   SelectingCallerHandStatus,
@@ -16,30 +16,30 @@ export interface SelectingCallerHandControlProps {
   teams: Team[];
 }
 
-export const SelectingCallerHandControl: React.FC<SelectingCallerHandControlProps> =
-  ({ currentStatus, onStatusChange, teams }) => {
-    const players = flattenTeams(teams);
-    return (
-      <Stack>
-        <Typography>Who called trump?</Typography>
-        <SelectButtonList<Player>
-          onSelect={(caller) => {
-            onStatusChange({
-              ...currentStatus,
-              status: "selectingApproach",
-              caller,
-            });
-          }}
-          currentValue={undefined}
-          items={players.map((player) => ({
-            buttonSx: { flexGrow: 1 },
-            value: player,
-            display: <PlayerDisplay player={player} />,
-          }))}
-        />
-      </Stack>
-    );
-  };
+export const SelectingCallerHandControl: React.FC<
+  SelectingCallerHandControlProps
+> = ({ currentStatus, onStatusChange, teams }) => {
+  const players = flattenTeams(teams);
+  return (
+    <Stack>
+      <CurrentTrumpDisplay trump={currentStatus.trump} />
+      <Typography textAlign="center">Who called trump?</Typography>
+      <SelectionButtonSet<Player>
+        onSelect={(caller) => {
+          onStatusChange({
+            ...currentStatus,
+            status: "selectingApproach",
+            caller,
+          });
+        }}
+        items={players.map((player) => ({
+          value: player,
+          display: player.displayName,
+        }))}
+      />
+    </Stack>
+  );
+};
 
 function flattenTeams(teams: Team[]): Player[] {
   if (teams.length === 0) {

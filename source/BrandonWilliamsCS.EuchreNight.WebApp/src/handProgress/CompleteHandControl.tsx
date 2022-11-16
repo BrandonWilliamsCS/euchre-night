@@ -1,6 +1,7 @@
 import React from "react";
 import { Stack, Typography } from "@mui/material";
 
+import { InnerColumns } from "common/InnerColumns";
 import { PrimaryButton } from "common/PrimaryButton";
 import { Player } from "data/Player";
 import { CompleteHandStatus } from "./HandStatus";
@@ -22,16 +23,18 @@ export const CompleteHandControl: React.FC<CompleteHandControlProps> = ({
   const score = computeScore(currentStatus);
   return (
     <Stack>
-      <Typography>
+      <Typography textAlign="center">
         {winnerName} scored {score} points this hand.
       </Typography>
-      <PrimaryButton
-        onClick={() => {
-          onHandComplete(currentStatus);
-        }}
-      >
-        Next Hand
-      </PrimaryButton>
+      <InnerColumns>
+        <PrimaryButton
+          onClick={() => {
+            onHandComplete(currentStatus);
+          }}
+        >
+          Next Hand
+        </PrimaryButton>
+      </InnerColumns>
     </Stack>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
-import { Box, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
+import { InnerColumns } from "common/InnerColumns";
 import { PrimaryButton } from "common/PrimaryButton";
 import { Player } from "data/Player";
 import { Team } from "data/Team";
@@ -21,31 +22,31 @@ export const InitialHandControl: React.FC<InitialHandControlProps> = ({
   onStatusChange,
 }) => {
   return (
-    <Stack>
+    <Stack textAlign="center">
       <Typography>You are playing against:</Typography>
       {teams.map(
         (team, i) =>
-          !team.hasPlayer(currentPlayer) && (
-            <Box key={i}>
-              {team.players.map((opposingTeamPlayer) => (
-                <PlayerDisplay
-                  key={opposingTeamPlayer.name}
-                  player={opposingTeamPlayer}
-                />
-              ))}
-            </Box>
-          ),
+          !team.hasPlayer(currentPlayer) &&
+          team.players.map((opposingTeamPlayer) => (
+            <PlayerDisplay
+              key={opposingTeamPlayer.displayName}
+              player={opposingTeamPlayer}
+            />
+          )),
       )}
-      <PrimaryButton
-        onClick={() => {
-          onStatusChange({
-            ...currentStatus,
-            status: "selectingTrump",
-          });
-        }}
-      >
-        Start the Hand
-      </PrimaryButton>
+      <InnerColumns>
+        <PrimaryButton
+          sx={{ mt: 1 }}
+          onClick={() => {
+            onStatusChange({
+              ...currentStatus,
+              status: "selectingTrump",
+            });
+          }}
+        >
+          Start the Hand
+        </PrimaryButton>
+      </InnerColumns>
     </Stack>
   );
 };

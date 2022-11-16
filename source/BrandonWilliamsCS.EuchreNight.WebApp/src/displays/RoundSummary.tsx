@@ -6,6 +6,7 @@ import { ScoreTally } from "data/ScoreTally";
 import { Table } from "data/Table";
 import { ScoreDisplay } from "./ScoreDisplay";
 import { TableDisplay } from "./TableDisplay";
+import { PlayerDisplay } from "./PlayerDisplay";
 
 export interface RoundSummaryProps {
   opponentScoreTally: ScoreTally;
@@ -43,7 +44,7 @@ export const RoundSummary: React.FC<RoundSummaryProps> = ({
         opponentScoreTally={opponentScoreTally}
       />
       <Typography component="span" variant="body1" textAlign="center">
-        Your partner is {partner.displayName}
+        Your partner is <PlayerDisplay player={partner} />
       </Typography>
     </Box>
   );
