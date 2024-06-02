@@ -18,15 +18,19 @@ namespace BrandonWilliamsCs.CosmosDb.Tools
         /// <param name="dbName">Which DB to connect to</param>
         /// <param name="integerSequenceContainerName">The name of the container that stores integer sequence documents</param>
         public static void Register(IServiceCollection services,
-            Action<JsonSerializerOptions> configureSerializerOptions,
             string connectionString,
             string dbName,
-            string integerSequenceContainerName)
+            string? integerSequenceContainerName = null,
+            Action<JsonSerializerOptions>? configureSerializerOptions = null)
         {
             services.AddSingleton(serviceProvider =>
             {
-                var options = new JsonSerializerOptions();
-                configureSerializerOptions(options);
+                var options = new JsonSerializerOptions
+                {
+                    // CosmosDb expects the id field of the document to be camel-case, so it's a good universal default
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
+                configureSerializerOptions?.Invoke(options);
                 var client = new CosmosClient(connectionString, new CosmosClientOptions
                 {
                     Serializer = new SystemTextJsonCosmosSerializer(options),
@@ -39,12 +43,14 @@ namespace BrandonWilliamsCs.CosmosDb.Tools
                 if (string.IsNullOrWhiteSpace(dbName)) { throw new Exception("Missing database name."); }
                 return new ContainerAccess(client, dbName);
             });
-            services.AddScoped<IIntegerSequenceSource, CosmosIntegerSequenceSource>(serviceProvider =>
+            if (integerSequenceContainerName is not null)
             {
-                var containerAccess = serviceProvider.GetRequiredService<IContainerAccess>();
-                if (string.IsNullOrWhiteSpace(integerSequenceContainerName)) { throw new Exception("Missing integer sequence container name."); }
-                return new CosmosIntegerSequenceSource(containerAccess, integerSequenceContainerName);
-            });
+                services.AddScoped<IIntegerSequenceSource, CosmosIntegerSequenceSource>(serviceProvider =>
+                {
+                    var containerAccess = serviceProvider.GetRequiredService<IContainerAccess>();
+                    return new CosmosIntegerSequenceSource(containerAccess, integerSequenceContainerName);
+                });
+            }
         }
     }
 }

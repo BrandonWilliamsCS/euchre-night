@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include = "..\BrandonWilliamsCs.EuchreNight.Data\BrandonWilliamsCs.EuchreNight.Data.csproj" />
     <ProjectReference Include = "..\BrandonWilliamsCs.EuchreNight.Domain\BrandonWilliamsCs.EuchreNight.Domain.csproj" />
   </ItemGroup>
 </Project>

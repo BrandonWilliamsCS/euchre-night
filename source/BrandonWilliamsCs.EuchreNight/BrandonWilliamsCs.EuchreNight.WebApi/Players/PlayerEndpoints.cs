@@ -1,20 +1,15 @@
+using BrandonWilliamsCs.CosmosDb;
+using BrandonWilliamsCs.CosmosDb.Access;
+using BrandonWilliamsCs.EuchreNight.Data;
+using BrandonWilliamsCs.EuchreNight.Data.Document;
 using BrandonWilliamsCs.EuchreNight.Domain;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Azure.Cosmos;
 
 namespace BrandonWilliamsCs.EuchreNight.WebApi.Players;
 
 public static class PlayerEndpoints
 {
-  private static List<Player> players =
-  [
-    new Player
-    {
-      UniqueId = Guid.NewGuid(),
-      DisplayName = "Example Player",
-      PreferredColor = "0000FF",
-    }
-  ];
-
   public static void RegisterPlayerEndpoints(this WebApplication app)
   {
     var endpointGroup = app.MapGroup("/players").WithOpenApi();
@@ -22,12 +17,16 @@ public static class PlayerEndpoints
     endpointGroup.MapPut("/", AddPlayer).WithName(nameof(AddPlayer));
   }
 
-  static Ok<IEnumerable<Player>> GetPlayers()
+  static Ok<IAsyncEnumerable<Player>> GetPlayers(IContainerAccess containerAccess)
   {
-    return TypedResults.Ok(players.AsEnumerable());
+    var playerContainer = ContainerSpecifications.Player;
+    var reader = containerAccess.ReadContainer(playerContainer);
+    var playerDocs = reader.Query(QueryDefinitionBuilder.QueryAll, (PartitionKey?)null);
+    var players = playerDocs.Select(doc => doc.Player);
+    return TypedResults.Ok(players);
   }
 
-  static Ok<Player> AddPlayer(AddPlayerDto dto)
+  static async Task<Ok<Player>> AddPlayer(AddPlayerDto dto, IContainerAccess containerAccess)
   {
     var player = new Player
     {
@@ -35,7 +34,11 @@ public static class PlayerEndpoints
       DisplayName = dto.DisplayName,
       PreferredColor = dto.PreferredColor,
     };
-    players.Add(player);
+
+    var playerContainer = ContainerSpecifications.Player;
+    var writer = containerAccess.WriteContainer(playerContainer);
+    var playerDoc = new PlayerDocument(player.UniqueId.ToString(), player);
+    await writer.Create(playerDoc);
     return TypedResults.Ok(player);
   }
 }
