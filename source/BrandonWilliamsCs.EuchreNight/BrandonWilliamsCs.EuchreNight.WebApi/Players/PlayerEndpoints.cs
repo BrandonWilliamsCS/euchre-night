@@ -28,13 +28,7 @@ public static class PlayerEndpoints
 
   static async Task<Ok<Player>> AddPlayer(AddPlayerDto dto, IContainerAccess containerAccess)
   {
-    var player = new Player
-    {
-      UniqueId = Guid.NewGuid(),
-      DisplayName = dto.DisplayName,
-      PreferredColor = dto.PreferredColor,
-    };
-
+    var player = Player.New(dto.DisplayName, dto.PreferredColor);
     var playerContainer = ContainerSpecifications.Player;
     var writer = containerAccess.WriteContainer(playerContainer);
     var playerDoc = new PlayerDocument(player.UniqueId.ToString(), player);
