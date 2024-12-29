@@ -1,5 +1,6 @@
 using BrandonWilliamsCs.CosmosDb.Tools;
 using BrandonWilliamsCs.EuchreNight.WebApi.Players;
+using BrandonWilliamsCs.EuchreNight.WebApi.Sessions;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,4 +34,5 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.RegisterPlayerEndpoints();
+app.RegisterSessionEndpoints();
 app.Run();

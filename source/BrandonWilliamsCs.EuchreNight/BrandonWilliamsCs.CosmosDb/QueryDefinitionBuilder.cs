@@ -10,8 +10,11 @@ namespace BrandonWilliamsCs.CosmosDb
     public class QueryDefinitionBuilder
     {
         private const string baseQuery = "SELECT * from c";
-        private readonly IList<string> filterConditions = new List<string>();
+        private readonly IList<string> filterConditions = [];
+        private readonly IList<(string term, bool desc)> orderCriteria = [];
         private readonly IDictionary<string, object> parameters = new Dictionary<string, object>();
+        private int? limit = null;
+        private int offset = 0;
 
         public static QueryDefinition QueryAll => new(baseQuery);
 
@@ -32,15 +35,40 @@ namespace BrandonWilliamsCs.CosmosDb
             return this;
         }
 
+        public QueryDefinitionBuilder AddOrder(string term, bool desc = false)
+        {
+            this.orderCriteria.Add((term, desc));
+            return this;
+        }
+
+        public QueryDefinitionBuilder SetLimitAndOffset(int limit, int offset = 0)
+        {
+            this.limit = limit;
+            this.offset = offset;
+            return this;
+        }
+
         public QueryDefinition Build()
         {
-            if (!filterConditions.Any())
+            var queryString = baseQuery;
+
+            if (this.filterConditions.Any())
             {
-                return new QueryDefinition(baseQuery);
+                // Surround individual conditions with parens to minimize chance of operator funny business
+                var filterClause = string.Join(") AND (", filterConditions);
+                queryString = $"{queryString} WHERE ({filterClause})";
             }
-            // Surround individual conditions with parens to minimize chance of operator funny business
-            var filterClause = string.Join(") AND (", filterConditions);
-            var queryString = $"{baseQuery} WHERE ({filterClause})";
+
+            if (this.orderCriteria.Any())
+            {
+                var orderClause = string.Join(", ", orderCriteria.Select(orderItem => $"({orderItem.term}){(orderItem.desc ? " DESC" : "")}"));
+                queryString = $"{queryString} ORDER BY {orderClause}";
+            }
+
+            if (this.limit.HasValue)
+            {
+                queryString = $"{queryString} OFFSET {this.offset} LIMIT {this.limit}";
+            }
 
             var queryDefinition = new QueryDefinition(queryString);
             foreach (var paramPair in parameters)
