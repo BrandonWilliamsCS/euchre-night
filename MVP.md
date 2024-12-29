@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- post player creation? Only if basically done already. Otherwise just hardcode strings.
+- post player creation
 - post session creation (description, player names)
   - becomes new latest session. Can be done in Swagger just before game starts
 - get session overview (everything known before actually starting, such as session plan and player mapping)
