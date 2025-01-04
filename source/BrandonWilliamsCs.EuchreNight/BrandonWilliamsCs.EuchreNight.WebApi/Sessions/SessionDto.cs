@@ -4,6 +4,7 @@ namespace BrandonWilliamsCs.EuchreNight.WebApi.Sessions;
 
 public class SessionDto
 {
+  public required Guid? UniqueId { get; set; }
   public required string? Description { get; set; }
   public required DateTime StartTime { get; set; }
   public required IReadOnlyDictionary<int, PlayerDto> PlayerMappings { get; set; }

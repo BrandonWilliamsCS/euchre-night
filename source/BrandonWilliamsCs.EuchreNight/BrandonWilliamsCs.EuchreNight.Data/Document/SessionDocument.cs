@@ -3,12 +3,13 @@ using BrandonWilliamsCs.EuchreNight.Domain;
 
 namespace BrandonWilliamsCs.EuchreNight.Data.Document
 {
-  public class SessionDocument(string id, SessionDocument.SessionDm session) : CosmosDbDocument(id)
+  public class SessionDocument(SessionDocument.SessionDm session) : CosmosDbDocument(session.UniqueId.ToString())
   {
     public SessionDm Session { get; set; } = session;
 
     public class SessionDm
     {
+      public required Guid UniqueId { get; set; }
       public required string? Description { get; set; }
       public required DateTime StartTime { get; set; }
       public required IReadOnlyDictionary<int, PlayerDm> PlayerMappings { get; set; }

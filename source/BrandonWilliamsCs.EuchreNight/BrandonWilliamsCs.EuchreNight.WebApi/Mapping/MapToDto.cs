@@ -9,6 +9,7 @@ public static class MapToDto
 
   public static SessionDto MapToSessionDto(SessionDocument.SessionDm dm) => new()
   {
+    UniqueId = dm.UniqueId,
     Description = dm.Description,
     StartTime = dm.StartTime,
     PlayerMappings = dm.PlayerMappings.ToDictionary((pair) => pair.Key, pair => MapToSessionPlayerDto(pair.Value)).AsReadOnly(),

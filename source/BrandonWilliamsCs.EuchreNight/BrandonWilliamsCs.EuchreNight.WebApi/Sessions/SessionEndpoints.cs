@@ -71,7 +71,7 @@ public static class SessionEndpoints
     {
         var sessionDm = MapToDm.MapToSessionDm(session);
         var sessionWriter = containerAccess.WriteContainer(ContainerSpecifications.Session);
-        var SessionDoc = new SessionDocument(session.UniqueId.ToString(), sessionDm);
+        var SessionDoc = new SessionDocument(sessionDm);
         await sessionWriter.Create(SessionDoc);
     }
 }
