@@ -1,4 +1,5 @@
 using BrandonWilliamsCs.CosmosDb.Tools;
+using BrandonWilliamsCs.EuchreNight.WebApi.HandReports;
 using BrandonWilliamsCs.EuchreNight.WebApi.Players;
 using BrandonWilliamsCs.EuchreNight.WebApi.Sessions;
 
@@ -33,6 +34,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.RegisterHandReportEndpoints();
 app.RegisterPlayerEndpoints();
 app.RegisterSessionEndpoints();
 app.Run();

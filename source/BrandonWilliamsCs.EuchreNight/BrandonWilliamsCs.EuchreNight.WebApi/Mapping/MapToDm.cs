@@ -1,12 +1,14 @@
 using BrandonWilliamsCs.EuchreNight.Data.Document;
 using BrandonWilliamsCs.EuchreNight.Domain;
 using BrandonWilliamsCs.EuchreNight.Domain.RoundRobin;
+using BrandonWilliamsCs.EuchreNight.WebApi.HandReports;
 
 namespace BrandonWilliamsCs.EuchreNight.WebApi.Mapping;
 
 public static class MapToDm
 {
 
+  #region Session
   public static SessionDocument.SessionDm MapToSessionDm(Session dto) => new()
   {
     UniqueId = dto.UniqueId,
@@ -44,4 +46,20 @@ public static class MapToDm
     Table = dto.Table,
     Participants = dto.Participants,
   };
+  #endregion
+
+  #region HandReport
+
+  public static HandReportDocument.HandReportDm MapToHandReportDm(PlaceHandReportDto dto, Guid uniqueId) => new()
+  {
+    UniqueId = uniqueId,
+    SessionId = dto.SessionId,
+    RoundNumber = dto.RoundNumber,
+    TableNumber = dto.TableNumber,
+    CallingPlayerNumber = dto.CallingPlayerNumber,
+    CallerWentAlone = dto.CallerWentAlone,
+    WinningTeamNumber = dto.WinningTeamNumber,
+    WinnersTookAllTricks = dto.WinnersTookAllTricks,
+  };
+  #endregion
 }
