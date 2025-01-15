@@ -16,7 +16,9 @@ RegisterCosmosServices.Register(
     builder.Services,
     // If these are null, just let the Register throw instead
     builder.Configuration["Database:ConnectionString"]!,
-    builder.Configuration["Database:DatabaseName"]!
+    builder.Configuration["Database:DatabaseName"]!,
+    changeFeedLeaseContainerName: builder.Configuration["Database:ChangeFeedLeaseContainerName"]!,
+    clientInstanceName: builder.Configuration["Database:ClientInstanceName"]!
 );
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

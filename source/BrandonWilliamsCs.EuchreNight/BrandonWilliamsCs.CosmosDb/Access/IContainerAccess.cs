@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using BrandonWilliamsCs.CosmosDb.ChangeFeed;
 
 namespace BrandonWilliamsCs.CosmosDb.Access
 {
@@ -10,5 +11,6 @@ namespace BrandonWilliamsCs.CosmosDb.Access
         Task EnsureContainerExists(ContainerSpecification specification);
         IDocumentReader<T> ReadContainer<T>(ContainerSpecification<T> specification) where T : CosmosDbDocument;
         IDocumentWriter<T> WriteContainer<T>(ContainerSpecification<T> specification) where T : CosmosDbDocument;
+        Task<IChangeFeedListener<T>> CreateChangeFeedListener<T>(ContainerSpecification<T> targetContainerSpec);
     }
 }

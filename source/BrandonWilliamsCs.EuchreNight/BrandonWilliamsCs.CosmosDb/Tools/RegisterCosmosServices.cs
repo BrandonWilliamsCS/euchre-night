@@ -21,7 +21,9 @@ namespace BrandonWilliamsCs.CosmosDb.Tools
             string connectionString,
             string dbName,
             string? integerSequenceContainerName = null,
-            Action<JsonSerializerOptions>? configureSerializerOptions = null)
+            Action<JsonSerializerOptions>? configureSerializerOptions = null,
+            string? changeFeedLeaseContainerName = null,
+            string? clientInstanceName = null)
         {
             services.AddSingleton(serviceProvider =>
             {
@@ -41,7 +43,7 @@ namespace BrandonWilliamsCs.CosmosDb.Tools
             {
                 var client = serviceProvider.GetRequiredService<CosmosClient>();
                 if (string.IsNullOrWhiteSpace(dbName)) { throw new Exception("Missing database name."); }
-                return new ContainerAccess(client, dbName);
+                return new ContainerAccess(client, dbName, changeFeedLeaseContainerName, clientInstanceName);
             });
             if (integerSequenceContainerName is not null)
             {

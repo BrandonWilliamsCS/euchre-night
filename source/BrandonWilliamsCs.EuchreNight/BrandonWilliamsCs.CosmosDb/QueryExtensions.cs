@@ -98,6 +98,16 @@ namespace BrandonWilliamsCs.CosmosDb
             return list;
         }
 
+        public static async Task<Dictionary<TKey, T>> ToDictionaryAsync<T, TKey>(this IAsyncEnumerable<T> sequence, Func<T, TKey> keyAccessor) where TKey : notnull
+        {
+            var dict = new Dictionary<TKey, T>();
+            await foreach (var item in sequence)
+            {
+                dict.Add(keyAccessor(item), item);
+            }
+            return dict;
+        }
+
         public static async Task<T?> FirstOrDefaultAsync<T>(this IAsyncEnumerable<T> sequence)
         {
             await foreach (var item in sequence)
