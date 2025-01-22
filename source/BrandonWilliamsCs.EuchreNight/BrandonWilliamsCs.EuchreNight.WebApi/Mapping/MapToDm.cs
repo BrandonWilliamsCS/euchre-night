@@ -56,9 +56,10 @@ public static class MapToDm
     SessionId = dto.SessionId,
     RoundNumber = dto.RoundNumber,
     TableNumber = dto.TableNumber,
+    HandNumber = dto.HandNumber,
     CallingPlayerNumber = dto.CallingPlayerNumber,
     CallerWentAlone = dto.CallerWentAlone,
-    WinningTeamNumber = dto.WinningTeamNumber,
+    WinningPlayerNumbers = dto.WinningPlayerNumbers,
     WinnersTookAllTricks = dto.WinnersTookAllTricks,
   };
   #endregion
