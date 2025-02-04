@@ -12,12 +12,15 @@ namespace BrandonWilliamsCs.EuchreNight.Data
             new(nameof(Session), "/id", doc => new PartitionKey(doc.Id.ToString()), [["/session/uniqueId"]]);
         public static readonly ContainerSpecification<HandReportDocument> HandReport =
             new(nameof(HandReport), "/id", doc => new PartitionKey(doc.Id.ToString()));
+        public static readonly ContainerSpecification<ScoreReportDocument> ScoreReport =
+            new(nameof(ScoreReport), "/sessionId", doc => new PartitionKey(doc.SessionId.ToString()));
 
         public static readonly IReadOnlyList<ContainerSpecification> All =
         [
             Player,
             Session,
             HandReport,
+            ScoreReport,
         ];
     }
 }

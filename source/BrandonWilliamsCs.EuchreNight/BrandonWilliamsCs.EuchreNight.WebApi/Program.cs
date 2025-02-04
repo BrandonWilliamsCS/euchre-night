@@ -43,5 +43,6 @@ app.UseHttpsRedirection();
 
 app.RegisterHandReportEndpoints();
 app.RegisterPlayerEndpoints();
+app.RegisterScoreReportEndpoints();
 app.RegisterSessionEndpoints();
 app.Run();

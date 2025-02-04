@@ -63,4 +63,18 @@ public static class MapToDm
     WinnersTookAllTricks = dto.WinnersTookAllTricks,
   };
   #endregion
+
+  #region ScoreReport
+  public static ScoreReportDocument.ScoreReportDm MapToScoreReportDm(ScoreReport scoreReport) => new()
+  {
+    UniqueId = scoreReport.UniqueId,
+    SessionId = scoreReport.SessionId,
+    Games = scoreReport.Games.Select((pair) => new ScoreReportDocument.GameOutcomeDm()
+    {
+      RoundNumber = pair.Key.Round,
+      TableNumber = pair.Key.Table,
+      GameOutcome = pair.Value,
+    }).ToList(),
+  };
+  #endregion
 }

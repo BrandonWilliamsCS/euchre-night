@@ -50,6 +50,8 @@ namespace BrandonWilliamsCs.CosmosDb
             PartitionKey? partitionKey) where T : CosmosDbDocument => reader.Query(queryDefinition, partitionKey, 1)
             .FirstOrDefaultAsync();
         public static Task<T?> QueryOne<T>(this IDocumentReader<T> reader, QueryDefinition queryDefinition,
+            Guid partitionKey) where T : CosmosDbDocument => QueryOne(reader, queryDefinition, new PartitionKey(partitionKey.ToString()));
+        public static Task<T?> QueryOne<T>(this IDocumentReader<T> reader, QueryDefinition queryDefinition,
             double partitionKey) where T : CosmosDbDocument => QueryOne(reader, queryDefinition, new PartitionKey(partitionKey));
         public static Task<T?> QueryOne<T>(this IDocumentReader<T> reader, QueryDefinition queryDefinition,
             string partitionKey) where T : CosmosDbDocument => QueryOne(reader, queryDefinition, new PartitionKey(partitionKey));

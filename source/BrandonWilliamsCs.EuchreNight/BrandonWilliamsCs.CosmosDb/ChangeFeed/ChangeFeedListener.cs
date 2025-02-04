@@ -13,6 +13,8 @@ public class ChangeFeedListener<T>(Container leaseContainer, Container targetCon
                 .GetChangeFeedProcessorBuilder<T>(processorName, (x, y) => onChanges(x))
                     .WithInstanceName(clientInstanceName)
                     .WithLeaseContainer(leaseContainer)
+                    // TODO: allow this to be configurable so we don't try to re-process old sessions.
+                    .WithStartTime(DateTime.MinValue.ToUniversalTime())
                     .Build();
 
     await changeFeedProcessor.StartAsync();
