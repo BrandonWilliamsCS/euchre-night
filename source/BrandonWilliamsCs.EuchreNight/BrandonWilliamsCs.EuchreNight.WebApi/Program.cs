@@ -1,8 +1,9 @@
 using BrandonWilliamsCs.CosmosDb.Tools;
 using BrandonWilliamsCs.EuchreNight.WebApi.HandReports;
 using BrandonWilliamsCs.EuchreNight.WebApi.Players;
+using BrandonWilliamsCs.EuchreNight.WebApi.ScoreReports;
+using BrandonWilliamsCs.EuchreNight.WebApi.Serialization;
 using BrandonWilliamsCs.EuchreNight.WebApi.Sessions;
-
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration
@@ -18,7 +19,11 @@ RegisterCosmosServices.Register(
     builder.Configuration["Database:ConnectionString"]!,
     builder.Configuration["Database:DatabaseName"]!,
     changeFeedLeaseContainerName: builder.Configuration["Database:ChangeFeedLeaseContainerName"]!,
-    clientInstanceName: builder.Configuration["Database:ClientInstanceName"]!
+    clientInstanceName: builder.Configuration["Database:ClientInstanceName"]!,
+    configureSerializerOptions: (options) =>
+    {
+        options.Converters.Add(new ValueMapJsonConverterFactory());
+    }
 );
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
