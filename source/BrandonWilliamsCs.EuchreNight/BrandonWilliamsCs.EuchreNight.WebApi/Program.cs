@@ -4,6 +4,7 @@ using BrandonWilliamsCs.EuchreNight.WebApi.Players;
 using BrandonWilliamsCs.EuchreNight.WebApi.ScoreReports;
 using BrandonWilliamsCs.EuchreNight.WebApi.Serialization;
 using BrandonWilliamsCs.EuchreNight.WebApi.Sessions;
+using Microsoft.AspNetCore.HttpLogging;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration
@@ -30,6 +31,13 @@ RegisterCosmosServices.Register(
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHttpLogging((logging) =>
+{
+    // TODO: configure in appsettings
+    logging.LoggingFields = HttpLoggingFields.RequestPath | HttpLoggingFields.RequestQuery | HttpLoggingFields.RequestMethod | HttpLoggingFields.RequestBody
+        | HttpLoggingFields.ResponseStatusCode;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -39,6 +47,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHttpLogging();
 app.UseHttpsRedirection();
 
 app.RegisterHandReportEndpoints();

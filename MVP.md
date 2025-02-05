@@ -14,7 +14,7 @@
 - get score report (all info from score sheet, for all or specified players)
 - Easy to run on the night
   - all containers automatically get created
-  - logging to make sure it's working right
+  - ✔ logging to make sure it's working right
 
 ## KISS
 
