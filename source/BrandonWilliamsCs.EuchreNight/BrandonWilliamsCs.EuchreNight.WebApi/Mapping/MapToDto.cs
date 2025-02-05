@@ -1,10 +1,12 @@
 using BrandonWilliamsCs.EuchreNight.Data.Document;
+using BrandonWilliamsCs.EuchreNight.WebApi.ScoreReports;
 using BrandonWilliamsCs.EuchreNight.WebApi.Sessions;
 
 namespace BrandonWilliamsCs.EuchreNight.WebApi.Mapping;
 
 public static class MapToDto
 {
+  #region Session
   public static SessionDto MapToSessionDto(SessionDocument document) => MapToSessionDto(document.Session);
 
   public static SessionDto MapToSessionDto(SessionDocument.SessionDm dm) => new()
@@ -44,4 +46,23 @@ public static class MapToDto
     Table = dm.Table,
     Participants = dm.Participants,
   };
+  #endregion
+
+  #region ScoreReport
+  public static ScoreReportDto MapToScoreReportDto(ScoreReportDocument document) => MapToScoreReportDto(document.ScoreReport);
+
+  public static ScoreReportDto MapToScoreReportDto(ScoreReportDocument.ScoreReportDm dm) => new()
+  {
+    UniqueId = dm.UniqueId,
+    SessionId = dm.SessionId,
+    Games = dm.Games.Select(MapToScoreReportGameOutcomeDto).ToList(),
+  };
+
+  public static ScoreReportDto.GameOutcomeDto MapToScoreReportGameOutcomeDto(ScoreReportDocument.GameOutcomeDm dm) => new()
+  {
+    RoundNumber = dm.RoundNumber,
+    TableNumber = dm.TableNumber,
+    GameOutcome = dm.GameOutcome,
+  };
+  #endregion
 }

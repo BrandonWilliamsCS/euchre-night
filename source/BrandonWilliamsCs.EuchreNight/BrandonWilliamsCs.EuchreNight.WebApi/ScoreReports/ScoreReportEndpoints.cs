@@ -12,7 +12,25 @@ public static class ScoreReportEndpoints
   public static void RegisterScoreReportEndpoints(this WebApplication app)
   {
     var endpointGroup = app.MapGroup("/ScoreReport").WithOpenApi();
+    endpointGroup.MapGet("/", GetScoreReport).WithName(nameof(GetScoreReport));
     endpointGroup.MapPost("/StartProcessing", StartProcessing).WithName(nameof(StartProcessing));
+  }
+
+  static async Task<IResult> GetScoreReport(IContainerAccess containerAccess, Guid sessionId)
+  {
+    var scoreReportContainer = ContainerSpecifications.ScoreReport;
+    var reader = containerAccess.ReadContainer(scoreReportContainer);
+    var scoreReportDoc = await reader.QueryOne(new QueryDefinitionBuilder()
+        .SetLimitAndOffset(1)
+        .Build(),
+      sessionId);
+
+    if (scoreReportDoc is null)
+    {
+      return TypedResults.NotFound();
+    }
+
+    return TypedResults.Ok(MapToDto.MapToScoreReportDto(scoreReportDoc));
   }
 
   static async Task<IResult> StartProcessing(IContainerAccess containerAccess, ILogger<ScoreReport> logger)
