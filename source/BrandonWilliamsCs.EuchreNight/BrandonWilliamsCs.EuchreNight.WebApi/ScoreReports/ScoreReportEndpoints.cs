@@ -35,9 +35,8 @@ public static class ScoreReportEndpoints
 
   static async Task<IResult> StartProcessing(IContainerAccess containerAccess, ILogger<ScoreReport> logger)
   {
-    logger.LogInformation("Starting ScoreReport processing");
     // TODO: may need to move this to functions, or decide how to make it worth Azure App Service
-    await containerAccess.EnsureContainerExists(ContainerSpecifications.ScoreReport);
+    logger.LogInformation("Starting ScoreReport processing");
     var scoreReportReader = containerAccess.ReadContainer(ContainerSpecifications.ScoreReport);
     var scoreReportWriter = containerAccess.WriteContainer(ContainerSpecifications.ScoreReport);
     var listener = await containerAccess.CreateChangeFeedListener(ContainerSpecifications.HandReport);

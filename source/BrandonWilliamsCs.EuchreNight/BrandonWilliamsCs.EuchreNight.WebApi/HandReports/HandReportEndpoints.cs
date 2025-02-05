@@ -21,7 +21,6 @@ public static class HandReportEndpoints
 
   private static async Task SaveHandReport(IContainerAccess containerAccess, PlaceHandReportDto handReport)
   {
-    await containerAccess.EnsureContainerExists(ContainerSpecifications.HandReport);
     var handReportDm = MapToDm.MapToHandReportDm(handReport, Guid.NewGuid());
     var handReportWriter = containerAccess.WriteContainer(ContainerSpecifications.HandReport);
     var handReportDoc = new HandReportDocument(handReportDm);

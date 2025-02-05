@@ -1,4 +1,5 @@
 using BrandonWilliamsCs.CosmosDb.Tools;
+using BrandonWilliamsCs.EuchreNight.WebApi;
 using BrandonWilliamsCs.EuchreNight.WebApi.HandReports;
 using BrandonWilliamsCs.EuchreNight.WebApi.Players;
 using BrandonWilliamsCs.EuchreNight.WebApi.ScoreReports;
@@ -40,16 +41,14 @@ builder.Services.AddHttpLogging((logging) =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// TODO: be ready to disable this based on config
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpLogging();
 app.UseHttpsRedirection();
 
+app.RegisterSystemEndpoints();
 app.RegisterHandReportEndpoints();
 app.RegisterPlayerEndpoints();
 app.RegisterScoreReportEndpoints();
