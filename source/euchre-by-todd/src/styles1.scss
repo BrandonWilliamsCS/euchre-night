@@ -1,0 +1,372 @@
+// Variables
+$white: #ffffff;
+$black: #000000;
+$forest: #1D4F1A;
+$pepper: #0D1C0C;
+$field: #8FC943;
+$honeysuckle: #EAEA59;
+$morning-mist: #E6EDF4;
+$grey: #ABABAB;
+$scarlet: #FF2400;
+$salmon: #FF7B69;
+
+// Mixins
+// -fonts
+@mixin font-18{
+  font-size:1.125rem;
+  line-height: 1.68rem;
+}
+@mixin font-21{
+  font-size:1.31rem;
+  line-height: 2rem;
+}
+@mixin font-24{
+  font-size:1.5rem;
+  line-height: 2.25rem;
+}
+@mixin font-72{
+  font-size:4.5rem;
+  line-height: 6.75rem;
+}
+
+
+
+
+// Resets
+*,
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+//global
+body{
+  background: $forest;
+  color: $white;
+  font-family: sans-serif;
+  font-size: 16px;
+}
+h1, h2, h3, h4, h5, p{
+  padding-bottom:1rem;
+}
+
+button{
+  text-align: center;
+  cursor: pointer;
+  color: $pepper;
+  @include font-18();
+  font-weight: bold;
+  background: linear-gradient(135deg,$honeysuckle 50%,$field 90%);
+  background-color: $field;
+  background-repeat: no-repeat;
+  border:none;
+  width: 20%;
+  padding: 2rem 2rem;
+  box-shadow: 0px 7px 10px rgba(13,28,12,.5);
+  
+  transition: background-position .5s ease-in-out, box-shadow .5s ease-in-out, background .5s ease-in-out;
+    &:hover, &:focus {
+      background-color: $field;
+      background-position-x: -400px;
+      box-shadow: 0px 2px 5px rgba(13,28,12,.5);
+    }
+}
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+.contentWrapper{
+  width:90%;
+  margin:3rem auto 50px;
+
+
+}
+.icon{
+  width:15px;
+  height:15px;
+  padding-left: .25rem;
+}
+.displayFlexCenter{
+  display:flex;
+  align-items: center;
+  justify-content: left;
+}
+.displayFlexBetween{
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card{
+  font-family: inherit;
+  background: $morning-mist;
+  color:$pepper;
+  margin-bottom: 3rem;
+  margin-right:2rem;
+  @include font-21();
+
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  &:hover, &:focus{
+    background: $grey;
+  }
+}
+
+//components
+//Modal
+.modal{
+  position: fixed;
+  z-index: 1;
+  left:0;
+  top:0;
+  overflow:auto;
+  width: 100%;
+  height: 100%;
+  background-color: rgba($honeysuckle, .3);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .modalBody{
+    background: $pepper;
+    color: $white;
+    border-radius: 12px;
+    width: 50%;
+    padding:1rem;
+    h3{
+      @include font-24();
+      text-transform: uppercase;
+      font-weight: normal;
+      text-align: center;
+    }
+    hr{
+      border:1px solid $field;
+      margin: 1rem 0;
+    }
+    p{
+      @include font-18();
+      padding:0;
+    }
+    
+  }
+  .rules{
+    h4{
+      padding-bottom:0rem;
+      @include font-18();
+    }
+    p{
+      padding-bottom:1rem;
+      @include font-18();
+    }
+  }
+}
+.hidden{
+  display:none;
+}
+.close{
+  width: 20px;
+  cursor: pointer;
+  background: $pepper;
+  transition: background .25s ease-in-out;
+  img{
+    transition: filter .25s ease-in-out;
+  }
+  &:hover, &:focus{
+    background: $honeysuckle;
+    img{
+      filter: invert(6%) sepia(9%) saturate(3893%) hue-rotate(68deg) brightness(101%) contrast(94%);
+    }
+  }
+}
+
+
+.gameDetails{
+  padding: 1rem;
+  background: $pepper;
+  color: $morning-mist;
+  a{
+    cursor: pointer;
+    transition: background .25s ease-in-out, color .25s ease-in-out;
+    img{
+      transition: filter .25s ease-in-out;
+    }
+    &:hover, &:focus{
+      background: $honeysuckle;
+      color:$pepper;
+      img{
+        filter:brightness(0);
+        
+      }
+    }
+  }
+}
+.userDetails{
+  width:100%;
+  height: 50px;
+  background: $pepper;
+  color: $white;
+  padding:6px 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+//Matchup info
+.match{
+  justify-content: space-between;
+  align-items: start;
+  .team{
+    margin-bottom:3rem;
+    text-align: center;
+    p {
+      @include font-24();
+      padding-bottom: 0;
+    }
+    .score{
+      @include font-72();
+      line-height: unset;
+    }
+  
+  }
+  .vs{
+    font-size: 3.25rem;
+  }
+}
+.nextRound{
+  font-size:1.3rem;
+  font-weight: bold;
+  margin-top: 2rem;
+}
+.next{
+  font-size: 3rem;
+}
+//Open screen
+.roundNum{
+  @include font-18();
+}
+.question {
+  @include font-24();
+    padding-bottom:1.5rem;
+}
+
+//Hand Details
+.trump{
+  font-family: inherit;
+  background: $morning-mist;
+  width: 200px;
+  margin-bottom: 3rem;
+  margin-right:2rem;
+  font-size: 4rem;
+  line-height: 0;
+  height: 250px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+.cardSuit{
+  width: 100px;
+}
+.currentTrump p{
+  font-family: inherit;
+  background: $morning-mist;
+  width: 200px;
+  margin-bottom: 3rem;
+  margin-right:2rem;
+  font-size: 4rem;
+  line-height: 0;
+  height: 250px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 60px;
+
+}
+.heart, .diamond {
+  color: $scarlet;
+}
+.noTrump {
+  font-size: 1.5rem;
+  //width:auto;
+  height: auto;
+  line-height: 1.68rem;;
+}
+
+//trap card selection
+.selectContainer{
+  margin-bottom:3rem;
+}
+.trapCard{
+  color: $scarlet;
+  background-color: $morning-mist;
+  display:inline;
+  padding: .98rem .25rem;
+  box-shadow: 0px 7px 10px rgba(13,28,12,.5);
+  margin: -100px .75rem -100px 0;
+  border: 1px solid $grey;
+}
+input[type="checkbox"]{
+  opacity: 0;
+  position: fixed;
+  width: 0;
+}
+
+.trapSelect{
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  color: $white;
+  @include font-18();
+  font-weight: bold;
+  background: $forest;
+  border:2px solid $morning-mist;
+  width: 20%;
+  padding: 2rem;
+  box-shadow: 0px 7px 10px rgba(13,28,12,0);
+  margin-bottom: 3rem;
+  margin-right:2rem;
+  transition: background .5s ease-in-out, box-shadow .5s ease-in-out, border .5s ease-in-out, color .5s ease-in-out;
+  
+    &:hover, &:focus {
+      color:$pepper;
+      border-color:$grey;
+      background: $grey;
+      box-shadow: 0px 2px 5px rgba(13,28,12,.5);
+    }
+}
+input[type="checkbox"]:checked + .trapSelect{
+  background-color: $honeysuckle;
+  border: solid 2px $honeysuckle;
+  color:$pepper;
+  box-shadow: 0px 7px 10px rgba(13,28,12,.5);
+
+  &:hover, &:focus {
+    background: $grey;
+    border-color:$grey;
+    box-shadow: 0px 2px 5px rgba(13,28,12,.5);
+  }
+}
+
+.results{
+  @include font-21();
+}
+
+
+//Leaderboard
+.leaderboard{
+  padding:2rem;
+  font-size:1rem;
+  li{
+    padding:.5rem 2rem;
+    &:nth-child(odd){
+      background:rgba($morning-mist, .2);
+    }
+  }
+}
