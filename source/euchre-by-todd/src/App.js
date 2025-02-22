@@ -1,11 +1,11 @@
-import React, { useReducer } from 'react';
-import { useState, useEffect } from 'react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
 import GameDetails from './GameDetails';
 import RoundDetails from './RoundDetails';
 import Leaderboard from './Leaderboard';
 import PlaySchedule from './PlaySchedule';
 import { appReducer } from './utils/appReducer';
 import { historyReducer } from './utils/historyReducer';
+import { ApiService } from './api/ApiService';
 
 //Add tonight's players here
 //12 players, everyone plays every round.
@@ -56,18 +56,23 @@ function shuffle(array) {
     
 const App = () => {
   console.log("%c APP.JS", "background: purple; color:black");
+  const apiServiceRef = useRef(new ApiService('https://localhost:7237'));
   
   //Set up reducer for state management
   const [state, dispatch] = useReducer(appReducer, appReducer.INITIAL_STATE);
   //Set up reducer for "Undo" functionality
   const [history, updateHistory] = useReducer(historyReducer, historyReducer.INITIAL_HISTORY);
+  const [session, setSession] = useState();
 
   //Set up URL queries
   const queryParameters = new URLSearchParams(window.location.search);
 
   
   //set up player objects
-  useEffect(() => {
+  useEffect(async () => {
+    // make current session API call
+    setSession(await apiServiceRef.current.getCurrentSession());
+
     //---- SET CURRENT TABLE
     // log it as a number so we can use the switch statement.
     state.table = Number(queryParameters.get("table"))
